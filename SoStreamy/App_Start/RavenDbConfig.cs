@@ -13,7 +13,7 @@ namespace SoStreamy.App_Start
             DocumentStore = new EmbeddableDocumentStore
             {
                 ConnectionStringName = "RavenDb",
-                UseEmbeddedHttpServer = true,
+                //UseEmbeddedHttpServer = true,
                 Conventions = { IdentityPartsSeparator = "-" }
             }.Initialize();
 

@@ -3,7 +3,6 @@
         var value = valueAccessor(),
             allBindings = allBindingsAccessor();
         var valueUnwrapped = ko.utils.unwrapObservable(value);
-        console.log(valueUnwrapped);
         var pattern = allBindings.datePattern || 'MM/dd/yyyy';
         $(element).text(valueUnwrapped.toString(pattern));
     }
