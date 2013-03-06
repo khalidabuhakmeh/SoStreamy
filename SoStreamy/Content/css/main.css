@@ -1,6 +1,11 @@
 ﻿body {
 }
 
+.row .span > .palette {
+	max-height: 300px;
+	overflow: auto;
+}
+
 .thought {
     margin-bottom: 20px;
 }
