@@ -20,6 +20,8 @@
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -152,6 +154,8 @@
     <Content Include="Content\css\bootstrap.css" />
     <Content Include="Content\css\flat-ui.css" />
     <Content Include="Content\css\main.css" />
+    <Content Include="Content\images\badge.png" />
+    <Content Include="Scripts\date.js" />
     <Content Include="Content\fonts\Flat-UI-Icons-16.dev.svg" />
     <Content Include="Content\fonts\Flat-UI-Icons-16.svg" />
     <Content Include="Content\fonts\Flat-UI-Icons-24.dev.svg" />
@@ -299,6 +303,7 @@
     <Content Include="Scripts\lte-ie7-24.min.js.map">
       <DependentUpon>lte-ie7-24.js</DependentUpon>
     </Content>
+    <Content Include="Scripts\streamy.bindings.js" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -334,6 +339,7 @@
       </FlavorProperties>
     </VisualStudio>
   </ProjectExtensions>
+  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
