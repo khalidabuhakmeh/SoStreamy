@@ -1,0 +1,54 @@
+﻿<div class="row">
+    <div class="span12" data-bind="foreach: { data: messages, afterRender: show }">
+        <div class="alert" data-bind="css: type">
+            <span data-bind="text: text"></span>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="span12">
+        <input data-bind="value: name" type="text" class="span12" placeholder="What your mother calls you" />
+    </div>
+    <div class="span12">
+        <textarea data-bind="value: thought" class="span12" placeholder="Your current thoughts and musings..."></textarea>
+    </div>
+    <button data-bind="click: create" class="btn btn-large btn-success span12">
+        Submit to the Universe
+    </button>
+</div>
+
+<hr />
+
+<div data-bind="fadeVisible: empty" class="row empty">
+    <div class="span12">
+        <div class="palette palette-night-dark">
+            <span>There are no thoughts here</span>
+        </div>
+        <div class="palette palette-bright">
+            <span>Will you enlighten the world?</span>
+        </div>
+    </div>
+</div>
+
+<div data-bind="foreach: { data: thoughts, afterRender: show }">
+    <div class="row thought">
+        <div class="span12">
+            <div class="palette" data-bind="text: thought, css: color.top">
+            </div>
+            <div data-bind="css: color.bottom" class="palette">
+                Concieved by <span data-bind="text: name"></span>
+                on <span data-bind="dateString: date, datePattern: 'MM/dd/yyyy'"></span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<hr />
+
+<script type="text/javascript">
+    $(function () {
+        Streamy.App = new Streamy.ApplicationViewModel();
+        ko.applyBindings(Streamy.App);
+    });
+</script>

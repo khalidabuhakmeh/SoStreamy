@@ -1,0 +1,76 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Soooo Streamy...</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Loading Bootstrap -->
+    <link href="~/content/css/bootstrap.css" rel="stylesheet">
+
+    <!-- Loading Flat UI -->
+    <link href="~/content/css/flat-ui.css" rel="stylesheet">
+    <link href="~/content/css/main.css" rel="stylesheet" />
+    <link rel="shortcut icon" href="~/content/images/favicon.ico">
+
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements. All other JS at the end of file. -->
+    <!--[if lt IE 9]>
+      <script src="~/Scripts/html5shiv.js"></script>
+    <![endif]-->
+
+    <script src="~/Scripts/jquery-1.8.2.min.js"></script>
+    <script src="~/Scripts/jquery.signalR-1.0.1.min.js"></script>
+    <script src="~/Scripts/knockout-2.2.1.js"></script>
+    <script src="~/Scripts/date.js"></script>
+    <script src="~/signalr/hubs"></script>
+    <script src="~/Scripts/streamy.bindings.js"></script>
+    <script src="~/Scripts/streamy.js"></script>
+
+</head>
+<body>
+    <div class="container">
+        <div class="demo-headline">
+            <h1 class="demo-logo">Soooo Streamy...
+               
+                <small>Life is a constant flow of ideas, what are yours?</small>
+            </h1>
+        </div>
+        @RenderBody()
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="span7">
+                    <h3 class="footer-title">Information</h3>
+                    <p>
+                        Yo dawg, I heard you like tech demo?<br />
+                        So I put a tech demo on GitHub so you could check it out. <a href="http://github.com/khalidabuhakmeh/sostreamy">Fork it here.</a><br />
+                        Open up multiple windows, deploy it to your server, and just have your friends spill their inner most secrets to you.
+                    </p>
+                    <br/>
+                    <p>
+                        <a class="" href="http://ravendb.net" target="_blank">
+                            <img src="~/content/images/badge.png" alt="ravendb.net" width="165px" />
+                        </a>
+                    </p>
+                </div>
+                <!-- /span8 -->
+
+                <div class="span5">
+                    <div class="footer-banner">
+                        <h3 class="footer-title">Powered By</h3>
+                        <ul>
+                            <li><a href="http://designmodo.com/flat-free" target="_blank">Flat-UI (theme)</a></li>
+                            <li><a href="http://ravendb.net" target="_blank">RavenDB (database)</a></li>
+                            <li><a href="http://knockoutjs.com" target="_blank">KnockoutJs (client side)</a></li>
+                            <li><a href="http://signalr.net" target="_blank">SignalR (client and server side)</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
