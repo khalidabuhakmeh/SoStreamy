@@ -64,8 +64,8 @@ Streamy.ApplicationViewModel = function () {
         }, 3000);
     };
 
-    self.show = function (el) {
-        $(el).hide().slideDown('slow');
+    self.show = function (elem, vm) {
+        $(elem).hide().show('blind');
     };
 
     // SignalR methods
@@ -82,7 +82,7 @@ Streamy.ApplicationViewModel = function () {
     };
 
     // change to true to see more info from SignalR
-    $.connection.hub.logging = false;
+    $.connection.hub.logging = true;
     $.connection.hub.start();
 };
 
