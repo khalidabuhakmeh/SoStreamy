@@ -86,7 +86,6 @@ Streamy.ApplicationViewModel = function () {
     $.connection.hub.start();
 };
 
-
 Streamy.ThoughtViewModel = function (json) {
     var self = this;
     json = ko.toJS(json);
@@ -98,3 +97,9 @@ Streamy.ThoughtViewModel = function (json) {
     Streamy.LastColor = Streamy.RandomColor();
     self.color = Streamy.LastColor;
 };
+
+Streamy.Purge = function() {
+    $.post('/thoughts/purge', function(result) {
+        console.log(result);
+    });
+}

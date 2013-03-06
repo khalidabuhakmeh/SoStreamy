@@ -41,16 +41,19 @@ namespace SoStreamy.Hubs
         {
             var hub = GlobalHost.ConnectionManager.GetHubContext<Streamy>();
 
-            using (var session = Application.DocumentStore.OpenSession())
+            if (value.Type == DocumentChangeTypes.Put)
             {
-                var thought = session.Load<Thought>(value.Id);
-                hub.Clients.All.addThought(thought);
-                hub.Clients.Client(thought.CallerId).addMessage("successfully added your thought");
+                using (var session = Application.DocumentStore.OpenSession())
+                {
+                    var thought = session.Load<Thought>(value.Id);
+                    hub.Clients.All.addThought(thought);
+                    hub.Clients.Client(thought.CallerId).addMessage("successfully added your thought");
+                }
             }
         }
 
         public void OnError(Exception error)
-        {}
+        { }
 
         public void OnCompleted()
         { }

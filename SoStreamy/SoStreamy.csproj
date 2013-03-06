@@ -145,6 +145,7 @@
     </Compile>
     <Compile Include="Hubs\Streamy.cs" />
     <Compile Include="Models\Thought.cs" />
+    <Compile Include="Models\Thoughts_All.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
