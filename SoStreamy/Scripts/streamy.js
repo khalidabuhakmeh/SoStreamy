@@ -22,7 +22,7 @@ Streamy.RandomColor = function () {
     return color;
 };
 
-Streamy.ApplicationViewModel = function () {
+Streamy.ApplicationViewModel = function (seed) {
     var self = this;
     var streamy = $.connection.streamy;
 
@@ -80,6 +80,12 @@ Streamy.ApplicationViewModel = function () {
     streamy.client.addMessage = function (message) {
         self.flash(message);
     };
+
+    if (seed) {
+        for (var i in seed) {
+            self.thoughts.push(new Streamy.ThoughtViewModel(seed[i]));
+        }
+    }
 
     // change to true to see more info from SignalR
     $.connection.hub.logging = true;

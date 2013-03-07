@@ -1,4 +1,6 @@
-﻿<div class="row">
+﻿@model SoStreamy.Models.IndexViewModel 
+
+<div class="row">
     <div class="span12" data-bind="foreach: { data: messages, afterRender: show }">
         <div class="alert" data-bind="css: type">
             <span data-bind="text: text"></span>
@@ -47,7 +49,7 @@
 
 <script type="text/javascript">
     $(function () {
-        Streamy.App = new Streamy.ApplicationViewModel();
+        Streamy.App = new Streamy.ApplicationViewModel(@Model.ToJson());
         ko.applyBindings(Streamy.App);
     });
 </script>

@@ -1,5 +1,9 @@
-﻿using System.Web.Mvc;
+﻿using System.Linq;
+using System.Web.Mvc;
 using Raven.Abstractions.Data;
+using Raven.Client;
+using Raven.Client.Linq;
+using SoStreamy.Models;
 
 namespace SoStreamy.Controllers
 {
@@ -7,7 +11,17 @@ namespace SoStreamy.Controllers
     {
         public ActionResult Index()
         {
-            return View();
+            var model = new IndexViewModel();
+            using (var session = Application.DocumentStore.OpenSession())
+            {
+                model.Thoughts = session.Query<Thoughts_All.Result, Thoughts_All>()
+                       .OrderByDescending(x => x.Created)
+                       .OfType<Thought>()
+                       .Take(10)
+                       .ToList();
+            }
+
+            return View(model);
         }
 
         [HttpPost]

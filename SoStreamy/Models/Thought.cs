@@ -20,4 +20,7 @@ namespace SoStreamy.Models
         [JsonIgnore]
         public string CallerId { get; set; }
     }
+
+
+
 }
