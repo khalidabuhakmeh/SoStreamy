@@ -14,11 +14,15 @@ namespace SoStreamy.Controllers
             var model = new IndexViewModel();
             using (var session = Application.DocumentStore.OpenSession())
             {
+                RavenQueryStatistics stats;
                 model.Thoughts = session.Query<Thoughts_All.Result, Thoughts_All>()
+                       .Statistics(out stats)
                        .OrderByDescending(x => x.Created)
                        .OfType<Thought>()
                        .Take(10)
                        .ToList();
+
+                model.TotalThoughts = stats.TotalResults;
             }
 
             return View(model);

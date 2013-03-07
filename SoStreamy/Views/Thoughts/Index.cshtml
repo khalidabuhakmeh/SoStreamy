@@ -1,4 +1,4 @@
-﻿@model SoStreamy.Models.IndexViewModel 
+﻿@model SoStreamy.Models.IndexViewModel
 
 <div class="row">
     <div class="span12" data-bind="foreach: { data: messages, afterRender: show }">
@@ -21,6 +21,12 @@
 </div>
 
 <hr />
+
+<div class="demo-headline">
+    <h1 class="count-logo"><span data-bind="text: total"></span>
+    <small>thoughts in all of time</small>
+    </h1>
+</div>
 
 <div data-bind="fadeVisible: empty" class="row empty">
     <div class="span12">
@@ -45,11 +51,24 @@
     </div>
 </div>
 
+<div data-bind="foreach: { data: seededMessages, afterRender: show }">
+    <div class="row thought">
+        <div class="span12">
+            <div class="palette" data-bind="html: thought, css: color.top"></div>
+            <div data-bind="css: color.bottom" class="palette">
+                Conceived by <span data-bind="html: name"></span>
+                on <span data-bind="dateString: date, datePattern: 'MM/dd/yyyy'"></span>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 <hr />
 
 <script type="text/javascript">
     $(function () {
-        Streamy.App = new Streamy.ApplicationViewModel(@Model.ToJson());
+        Streamy.App = new Streamy.ApplicationViewModel(@Model.ToJson(), @Model.TotalThoughts);
         ko.applyBindings(Streamy.App);
     });
 </script>

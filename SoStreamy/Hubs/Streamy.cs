@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Linq;
 using Microsoft.AspNet.SignalR;
 using Raven.Abstractions.Data;
+using Raven.Client;
 using SoStreamy.Models;
 
 namespace SoStreamy.Hubs
@@ -28,7 +30,12 @@ namespace SoStreamy.Hubs
 
             using (var session = Application.DocumentStore.OpenSession())
             {
-                var newThought = new Thought { Name = name, Text = text, CallerId = Context.ConnectionId };
+                var newThought = new Thought
+                {
+                    Name = name,
+                    Text = text,
+                    CallerId = Context.ConnectionId
+                };
                 session.Store(newThought);
                 session.SaveChanges();
             }
@@ -48,8 +55,23 @@ namespace SoStreamy.Hubs
                     var thought = session.Load<Thought>(value.Id);
                     hub.Clients.All.addThought(thought);
                     hub.Clients.Client(thought.CallerId).addMessage("successfully added your thought");
+                    hub.Clients.All.updateTotal(GetTotalCount(session));
+                    hub.Clients.All.addThought(thought);
                 }
             }
+        }
+
+        private static int GetTotalCount(IDocumentSession session)
+        {
+            RavenQueryStatistics stats;
+            session.Query<Thoughts_All.Result, Thoughts_All>()
+                   .Statistics(out stats)
+                   .OrderByDescending(x => x.Created)
+                   .OfType<Thought>()
+                   .Take(0)
+                   .ToList();
+
+            return stats.TotalResults + 1;
         }
 
         public void OnError(Exception error)

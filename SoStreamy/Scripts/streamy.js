@@ -22,7 +22,7 @@ Streamy.RandomColor = function () {
     return color;
 };
 
-Streamy.ApplicationViewModel = function (seed) {
+Streamy.ApplicationViewModel = function (seed, count) {
     var self = this;
     var streamy = $.connection.streamy;
 
@@ -30,9 +30,11 @@ Streamy.ApplicationViewModel = function (seed) {
     self.thought = ko.observable('');
     self.thoughts = ko.observableArray();
     self.messages = ko.observableArray();
+    self.seededMessages = ko.observableArray();
+    self.total = ko.observable(count);
 
     self.any = ko.computed(function () {
-        return self.thoughts().length > 0;
+        return self.thoughts().length > 0 || self.seededMessages().length > 0;
     });
 
     self.empty = ko.computed(function () {
@@ -45,9 +47,7 @@ Streamy.ApplicationViewModel = function (seed) {
             thought: self.thought(),
             name: self.name()
         };
-
         streamy.server.submit(thought);
-
         self.thought('');
     };
 
@@ -81,9 +81,13 @@ Streamy.ApplicationViewModel = function (seed) {
         self.flash(message);
     };
 
+    streamy.client.updateTotal = function(totalItems) {
+        self.total(totalItems);
+    };
+
     if (seed) {
         for (var i in seed) {
-            self.thoughts.push(new Streamy.ThoughtViewModel(seed[i]));
+            self.seededMessages.push(new Streamy.ThoughtViewModel(seed[i]));
         }
     }
 

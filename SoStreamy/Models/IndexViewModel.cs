@@ -14,6 +14,7 @@ namespace SoStreamy.Models
         }
 
         public IList<Thought> Thoughts { get; set; }
+        public int TotalThoughts { get; set; }
 
         public MvcHtmlString ToJson()
         {
