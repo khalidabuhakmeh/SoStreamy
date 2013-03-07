@@ -56,7 +56,6 @@ namespace SoStreamy.Hubs
                     hub.Clients.All.addThought(thought);
                     hub.Clients.Client(thought.CallerId).addMessage("successfully added your thought");
                     hub.Clients.All.updateTotal(GetTotalCount(session));
-                    hub.Clients.All.addThought(thought);
                 }
             }
         }
