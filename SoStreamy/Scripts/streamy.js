@@ -35,8 +35,6 @@ Streamy.ApplicationViewModel = function (seed) {
     self.loaded = new Date(seed.pageLoaded);
     self.currentPage = 1;
 
-    console.log(self.loaded);
-
     self.any = ko.computed(function () {
         return self.thoughts().length > 0;
     });
@@ -127,6 +125,7 @@ Streamy.ThoughtViewModel = function (json, html) {
 
 Streamy.Purge = function () {
     $.post('/thoughts/purge', function (result) {
-        console.log(result);
+        if (console)
+            console.log(result);
     });
 }
