@@ -40,12 +40,18 @@ namespace SoStreamy.Controllers
                 RavenQueryStatistics stats;
                 var thoughts = session.Query<Thoughts_All.Result, Thoughts_All>()
                                       .Statistics(out stats)
-                                      .Where(x => x.Created <= loaded)
                                       .OrderByDescending(x => x.Created)
-                                      .OfType<Thought>()
+                                      .Where(x => x.Created <= loaded)
                                       .Skip(page * Size)
                                       .Take(Size)
-                                      .ToList();
+                                      .OfType<Thought>()
+                                      .ToList()
+                                      .Select(i => new
+                                      {
+                                          name = i.Name,
+                                          date = i.Created.ToString(),
+                                          thought = i.Text
+                                      });
 
                 return Json(new { nextPage = page + 1, thoughts, ok = 1 });
             }

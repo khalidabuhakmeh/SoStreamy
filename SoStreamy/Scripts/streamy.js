@@ -67,14 +67,17 @@ Streamy.ApplicationViewModel = function (seed) {
     };
 
     self.more = function () {
-        $.post('/thoughts/more', { page: self.currentPage, loaded: self.loaded.toISOString() }, function (result) {
-            if (result.ok) {
-                self.currentPage = result.nextPage;
-                for (var t in result.thoughts) {
-                    self.thoughts.push(new Streamy.ThoughtViewModel(seed.thoughts[t], true));
+        $.post('/thoughts/more',
+            { page: self.currentPage, loaded: self.loaded.toISOString() },
+            function (result) {
+                if (result.ok) {
+                    console.log(result);
+                    self.currentPage = result.nextPage;
+                    for (var t in result.thoughts) {
+                        self.thoughts.push(new Streamy.ThoughtViewModel(result.thoughts[t]));
+                    }
                 }
-            }
-        });
+            });
     };
 
     self.show = function (elem, vm) {
@@ -115,9 +118,9 @@ Streamy.ThoughtViewModel = function (json, html) {
 
     Streamy.LastColor = Streamy.RandomColor();
 
-    self.name = json.name || json.Name;
-    self.thought = json.thought || json.Thought;
-    self.date = json.date || json.Date;
+    self.name = json.name;
+    self.thought = json.thought;
+    self.date = json.date;
     self.date = new Date(self.date);
     self.color = Streamy.LastColor;
     self.seed = html ? true : false;
