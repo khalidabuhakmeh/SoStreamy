@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Web.Mvc;
 using Raven.Abstractions.Data;
 using Raven.Client;
@@ -9,6 +10,8 @@ namespace SoStreamy.Controllers
 {
     public class ThoughtsController : Controller
     {
+        protected int Size = 10;
+
         public ActionResult Index()
         {
             var model = new IndexViewModel();
@@ -17,9 +20,10 @@ namespace SoStreamy.Controllers
                 RavenQueryStatistics stats;
                 model.Thoughts = session.Query<Thoughts_All.Result, Thoughts_All>()
                        .Statistics(out stats)
+                       .Where(x => x.Created <= DateTime.UtcNow)
                        .OrderByDescending(x => x.Created)
                        .OfType<Thought>()
-                       .Take(10)
+                       .Take(Size)
                        .ToList();
 
                 model.TotalThoughts = stats.TotalResults;
@@ -29,13 +33,32 @@ namespace SoStreamy.Controllers
         }
 
         [HttpPost]
+        public ActionResult More(int page, DateTimeOffset loaded)
+        {
+            using (var session = Application.DocumentStore.OpenSession())
+            {
+                RavenQueryStatistics stats;
+                var thoughts = session.Query<Thoughts_All.Result, Thoughts_All>()
+                                      .Statistics(out stats)
+                                      .Where(x => x.Created <= loaded)
+                                      .OrderByDescending(x => x.Created)
+                                      .OfType<Thought>()
+                                      .Skip(page * Size)
+                                      .Take(Size)
+                                      .ToList();
+
+                return Json(new { nextPage = page + 1, thoughts, ok = 1 });
+            }
+        }
+
+        [HttpPost]
         public ActionResult Purge()
         {
             Application.DocumentStore
                        .DatabaseCommands
                        .DeleteByIndex("Thoughts/All", new IndexQuery { Query = "*" }, true);
 
-            return Json(new {ok = true});
+            return Json(new { ok = true });
         }
     }
 }

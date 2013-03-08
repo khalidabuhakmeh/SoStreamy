@@ -11,14 +11,21 @@ namespace SoStreamy.Models
         public IndexViewModel()
         {
             Thoughts = new List<Thought>();
+            PageLoaded = DateTimeOffset.UtcNow;
         }
 
         public IList<Thought> Thoughts { get; set; }
         public int TotalThoughts { get; set; }
+        public DateTimeOffset PageLoaded { get; set; }
 
         public MvcHtmlString ToJson()
         {
-            return MvcHtmlString.Create(JsonConvert.SerializeObject(Thoughts, new HtmlEncodeStringPropertiesConverter()));
+            return MvcHtmlString.Create(JsonConvert.SerializeObject(new
+            {
+                thoughts = Thoughts,
+                totalThoughts = TotalThoughts,
+                pageLoaded = PageLoaded
+            }, new HtmlEncodeStringPropertiesConverter()));
         }
     }
 

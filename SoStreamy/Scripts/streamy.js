@@ -22,19 +22,23 @@ Streamy.RandomColor = function () {
     return color;
 };
 
-Streamy.ApplicationViewModel = function (seed, count) {
+Streamy.ApplicationViewModel = function (seed) {
     var self = this;
     var streamy = $.connection.streamy;
+    seed = seed || { totalThoughts: 0, pageLoaded: new Date() };
 
     self.name = ko.observable('');
     self.thought = ko.observable('');
     self.thoughts = ko.observableArray();
     self.messages = ko.observableArray();
-    self.seededMessages = ko.observableArray();
-    self.total = ko.observable(count);
+    self.total = ko.observable(seed.totalThoughts);
+    self.loaded = new Date(seed.pageLoaded);
+    self.currentPage = 1;
+
+    console.log(self.loaded);
 
     self.any = ko.computed(function () {
-        return self.thoughts().length > 0 || self.seededMessages().length > 0;
+        return self.thoughts().length > 0;
     });
 
     self.empty = ko.computed(function () {
@@ -64,6 +68,17 @@ Streamy.ApplicationViewModel = function (seed, count) {
         }, 3000);
     };
 
+    self.more = function () {
+        $.post('/thoughts/more', { page: self.currentPage, loaded: self.loaded.toISOString() }, function (result) {
+            if (result.ok) {
+                self.currentPage = result.nextPage;
+                for (var t in result.thoughts) {
+                    self.thoughts.push(new Streamy.ThoughtViewModel(seed.thoughts[t], true));
+                }
+            }
+        });
+    };
+
     self.show = function (elem, vm) {
         $(elem).hide().show('blind');
     };
@@ -81,35 +96,37 @@ Streamy.ApplicationViewModel = function (seed, count) {
         self.flash(message);
     };
 
-    streamy.client.updateTotal = function(totalItems) {
+    streamy.client.updateTotal = function (totalItems) {
         self.total(totalItems);
     };
 
-    if (seed) {
-        for (var i in seed) {
-            self.seededMessages.push(new Streamy.ThoughtViewModel(seed[i]));
+    if (seed && seed.thoughts) {
+        for (var i in seed.thoughts) {
+            self.thoughts.push(new Streamy.ThoughtViewModel(seed.thoughts[i], true));
         }
     }
 
     // change to true to see more info from SignalR
-    $.connection.hub.logging = true;
+    $.connection.hub.logging = false;
     $.connection.hub.start();
 };
 
-Streamy.ThoughtViewModel = function (json) {
+Streamy.ThoughtViewModel = function (json, html) {
     var self = this;
     json = ko.toJS(json);
+
+    Streamy.LastColor = Streamy.RandomColor();
 
     self.name = json.name || json.Name;
     self.thought = json.thought || json.Thought;
     self.date = json.date || json.Date;
     self.date = new Date(self.date);
-    Streamy.LastColor = Streamy.RandomColor();
     self.color = Streamy.LastColor;
+    self.seed = html ? true : false;
 };
 
-Streamy.Purge = function() {
-    $.post('/thoughts/purge', function(result) {
+Streamy.Purge = function () {
+    $.post('/thoughts/purge', function (result) {
         console.log(result);
     });
 }
