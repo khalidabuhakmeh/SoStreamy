@@ -19,7 +19,7 @@ namespace SoStreamy.App_Start
             {
                 TryToInitialize();
             }
-            catch (EsentSecondaryIndexCorruptedException e)
+            catch (Exception e)
             {
                 var dataDirectory = HostingEnvironment.MapPath(ConfigurationManager.AppSettings["RavenDirectory"]);
                 throw new Exception(dataDirectory);
@@ -37,6 +37,8 @@ namespace SoStreamy.App_Start
                 if (process.Start())
                     TryToInitialize();
             }
+
+            IndexCreation.CreateIndexes(typeof(RavenDbConfig).Assembly, DocumentStore);
         }
 
         private static void TryToInitialize()
@@ -48,7 +50,7 @@ namespace SoStreamy.App_Start
                 Conventions = { IdentityPartsSeparator = "-" }
             }.Initialize();
 
-            IndexCreation.CreateIndexes(typeof(RavenDbConfig).Assembly, DocumentStore);
+            
         }
 
         public static IDocumentStore Start()
