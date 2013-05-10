@@ -60,9 +60,9 @@ namespace SoStreamy.Controllers
         [HttpPost]
         public ActionResult Purge()
         {
-            Application.DocumentStore
-                       .DatabaseCommands
-                       .DeleteByIndex("Thoughts/All", new IndexQuery { Query = "*" }, true);
+            //Application.DocumentStore
+            //           .DatabaseCommands
+            //           .DeleteByIndex("Thoughts/All", new IndexQuery { Query = "*" }, true);
 
             return Json(new { ok = true });
         }
