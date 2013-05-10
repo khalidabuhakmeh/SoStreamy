@@ -44,6 +44,10 @@
     <Reference Include="AntiXssLibrary">
       <HintPath>..\packages\AntiXSS.4.2.1\lib\net40\AntiXssLibrary.dll</HintPath>
     </Reference>
+    <Reference Include="Esent.Interop, Version=1.7.0.0, Culture=neutral, PublicKeyToken=8dd49bbdae3f61af, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\RavenDB.Database.2.0.2261\lib\net40\Esent.Interop.dll</HintPath>
+    </Reference>
     <Reference Include="HtmlSanitizationLibrary">
       <HintPath>..\packages\AntiXSS.4.2.1\lib\net40\HtmlSanitizationLibrary.dll</HintPath>
     </Reference>
