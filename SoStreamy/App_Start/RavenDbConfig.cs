@@ -29,8 +29,9 @@ namespace SoStreamy.App_Start
                         Arguments = "/d Data",
                     }
                 };
-                process.Start();
-                TryToInitialize();
+
+                if (process.Start())
+                    TryToInitialize();
             }
         }
 
@@ -40,10 +41,10 @@ namespace SoStreamy.App_Start
             {
                 ConnectionStringName = "RavenDb",
                 //UseEmbeddedHttpServer = true,
-                Conventions = {IdentityPartsSeparator = "-"}
+                Conventions = { IdentityPartsSeparator = "-" }
             }.Initialize();
 
-            IndexCreation.CreateIndexes(typeof (RavenDbConfig).Assembly, DocumentStore);
+            IndexCreation.CreateIndexes(typeof(RavenDbConfig).Assembly, DocumentStore);
         }
 
         public static IDocumentStore Start()
