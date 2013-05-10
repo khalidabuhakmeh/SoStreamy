@@ -1,4 +1,5 @@
-﻿using System.Configuration;
+﻿using System;
+using System.Configuration;
 using System.Diagnostics;
 using System.Web.Hosting;
 using Microsoft.Isam.Esent.Interop;
@@ -20,12 +21,15 @@ namespace SoStreamy.App_Start
             }
             catch (EsentSecondaryIndexCorruptedException e)
             {
+                var dataDirectory = HostingEnvironment.MapPath(ConfigurationManager.AppSettings["RavenDirectory"]);
+                throw new Exception(dataDirectory);
+
                 var process = new Process
                 {
                     StartInfo =
                     {
                         FileName = "esentutl",
-                        WorkingDirectory = HostingEnvironment.MapPath(ConfigurationManager.AppSettings["RavenDirectory"]),
+                        WorkingDirectory = dataDirectory,
                         Arguments = "/d Data",
                     }
                 };
