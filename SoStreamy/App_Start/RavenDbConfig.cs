@@ -22,7 +22,6 @@ namespace SoStreamy.App_Start
             catch (Exception e)
             {
                 var dataDirectory = HostingEnvironment.MapPath(ConfigurationManager.AppSettings["RavenDirectory"]);
-                throw new Exception(dataDirectory);
 
                 var process = new Process
                 {
@@ -49,8 +48,6 @@ namespace SoStreamy.App_Start
                 //UseEmbeddedHttpServer = true,
                 Conventions = { IdentityPartsSeparator = "-" }
             }.Initialize();
-
-            
         }
 
         public static IDocumentStore Start()
