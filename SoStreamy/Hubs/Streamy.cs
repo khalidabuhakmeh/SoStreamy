@@ -53,7 +53,12 @@ namespace SoStreamy.Hubs
                 using (var session = Application.DocumentStore.OpenSession())
                 {
                     var thought = session.Load<Thought>(value.Id);
-                    hub.Clients.All.addThought(thought);
+                    hub.Clients.All.addThought(new
+                    {
+                        name = thought.Name,
+                        date = thought.Created.ToString(),
+                        thought = thought.Text
+                    });
                     hub.Clients.Client(thought.CallerId).addMessage("successfully added your thought");
                     hub.Clients.All.updateTotal(GetTotalCount(session));
                 }
