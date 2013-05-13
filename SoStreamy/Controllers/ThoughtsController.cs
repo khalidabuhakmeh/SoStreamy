@@ -20,6 +20,7 @@ namespace SoStreamy.Controllers
                 RavenQueryStatistics stats;
                 model.Thoughts = session.Query<Thoughts_All.Result, Thoughts_All>()
                        .Statistics(out stats)
+                       // NOTE: Filtering by Date is causing a bug with 2360
                        .Where(x => x.Created <= DateTime.UtcNow)
                        .OrderByDescending(x => x.Created)
                        .OfType<Thought>()
